@@ -1,0 +1,157 @@
+<html>
+  <body>
+    <style>
+      * {
+        background-color: black;
+      }
+      .title-principal {
+        color: aliceblue;
+      }
+      .vencedor {
+        color: aliceblue;
+        text-align: center;
+      }
+      .player-options img,
+      .enemy-options img {
+        max-width: 150px;
+
+        opacity: 0.3;
+        cursor: pointer;
+        padding: 20px;
+        margin-right: 30px;
+      }
+
+      .player-options,
+      .enemy-options {
+        width: 50%;
+      }
+      .align {
+        display: flex;
+      }
+      .submit {
+        margin: 20px;
+        border-radius: 30px;
+        border-bottom: 30px;
+        margin-top: -50px;
+        color: #f0f8ff;
+        margin-left: 200px;
+        cursor: pointer;
+        font-size: larger;
+      }
+    </style>
+    <h1 class="title-principal" style="text-align: center">
+      PEDRA PAPEL & TESOURA
+    </h1>
+    <h2 class="vencedor"></h2>
+    <br />
+    <div class="align">
+      <div class="player-options">
+        <div><img opt="pedra" src="rock.png" alt="" /></div>
+        <div><img opt="papel" src="paper.png" alt="" /></div>
+        <div><img opt="tesoura" src="scisor.png" alt="" /></div>
+      </div>
+
+      <div class="enemy-options">
+        <div><img opt="pedra" src="rock.png" alt="" /></div>
+        <div><img opt="papel" src="paper.png" alt="" /></div>
+        <div><img opt="tesoura" src="scisor.png" alt="" /></div>
+      </div>
+    </div>
+    <button class="submit" name="jogar-novamente">Jogar Novamente</button>
+    <script>
+      var items = [];
+
+      var elementos = document.querySelectorAll(".player-options div> img");
+
+      var playerOpt = "";
+      var inimigoOpt = "";
+
+      function validarVitoria() {
+        let vencedor = document.querySelector(".vencedor");
+
+        if (playerOpt == "papel") {
+          if (inimigoOpt == "papel") {
+            vencedor.innerHTML = "O jogo foi empatado";
+            //empate
+          } else if (inimigoOpt == "tesoura") {
+            // inimigo ganhou
+            vencedor.innerHTML = "O inimigo Ganhou";
+          } else if (inimigoOpt == "pedra") {
+            // player ganhou
+            vencedor.innerHTML = "O player Ganhou";
+          }
+        }
+
+        if (playerOpt == "pedra") {
+          if (inimigoOpt == "pedra") {
+            vencedor.innerHTML = "O jogo foi empatado";
+            //empate
+          } else if (inimigoOpt == "tesoura") {
+            // o player ganhou
+            vencedor.innerHTML = "O player Ganhou";
+          } else if (inimigoOpt == "papel") {
+            // o inimigo ganhou
+            vencedor.innerHTML = "O inimigo Ganhou";
+          }
+        }
+
+        if (playerOpt == "tesoura") {
+          if (inimigoOpt == "tesoura") {
+            vencedor.innerHTML = "O jogo foi empatado";
+            //empate
+          } else if (inimigoOpt == "papel") {
+            // o player ganhou
+            vencedor.innerHTML = "O player Ganhou";
+          } else if (inimigoOpt == "pedra") {
+            // o inimigo ganhou
+            vencedor.innerHTML = "O inimigo Ganhou";
+          }
+        }
+      }
+      function resetInimigo() {
+        const enemyOptions = document.querySelectorAll(".enemy.option div");
+        for (var i = 0; i < enemyOptions.target; i++) {
+          enemyOptions[i].childNodes[0].style.opacity = 1;
+        }
+      }
+
+      function inimigoJogar() {
+        let rand = Math.floor(Math.random() * 3);
+
+        const enemyOptions = document.querySelectorAll(".enemy-options div");
+
+        resetInimigo();
+
+        for (var i = 0; i < enemyOptions.length; i++) {
+          if (i == rand) {
+            enemyOptions[i].childNodes[0].style.opacity = 1;
+
+            inimigoOpt = enemyOptions[i].childNodes[0].getAttribute("opt");
+          }
+        }
+
+        validarVitoria();
+      }
+
+      function resetOpacityPlayer() {
+        for (var i = 0; i < elementos.length; i++) {
+          elementos[i].style.opacity = 0.3;
+        }
+      }
+      for (var i = 0; i < elementos.length; i++) {
+        elementos[i].addEventListener("click", function (t) {
+          resetOpacityPlayer();
+          t.target.style.opacity = 1;
+          playerOpt = t.target.getAttribute("opt");
+
+          inimigoJogar();
+        });
+      }
+
+      var btn = document.querySelector(".submit");
+      btn.addEventListener("click", function () {
+        location.reload();
+      });
+    </script>
+  </body>
+</html>
